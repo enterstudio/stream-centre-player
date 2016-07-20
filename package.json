@@ -1,0 +1,25 @@
+{
+  "name": "stream-centre-player",
+  "version": "0.0.1",
+  "description": "Dash.js wrapper for easy-peasy usage",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qoollo/stream-centre-player.git"
+  },
+  "keywords": [
+    "dash.js",
+    "mpeg-dash",
+    "player",
+    "video"
+  ],
+  "author": "Alexander Pavlyuk",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/qoollo/stream-centre-player/issues"
+  },
+  "homepage": "https://github.com/qoollo/stream-centre-player#readme"
+}
