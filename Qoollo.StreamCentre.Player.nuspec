@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+    <metadata minClientVersion="3.3.0">
+        <id>Qoollo.StreamCentre.Player</id>
+        <version>0.0.1</version>
+        <authors>Alexander Pavlyuk</authors>
+        <owners>Qoollo</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Dash.js wrapper.</description>
+        <tags></tags>
+        <dependencies>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="dist\bundle.js" target="Resources\player.js" />
+        <file src="dist\index.html" target="Resources\player.html" />
+        <file src="dist\player.css" target="Resources\player.css" />
+    </files>
+</package>
