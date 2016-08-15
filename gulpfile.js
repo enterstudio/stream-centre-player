@@ -21,15 +21,27 @@ const paths = {
     dest: "dist"
 };
 
-var browserified = browserify({
-    basedir: '.',
-    debug: true,
-    entries: [paths.src.js],
-    cache: {},
-    packageCache: {}
-}).plugin(tsify);
+var browserified = null;
 
-function bundle() {
+function createBrowserifiedBundle(debug, watch) {
+    if (browserified === null) {
+        debug = !!debug;
+        browserified = browserify({
+            basedir: '.',
+            debug: debug,
+            entries: [paths.src.js],
+            cache: {},
+            packageCache: {}
+        }).plugin(tsify);
+
+        watch = !!watch;
+        if (watch) {
+            browserified = watchify(browserified);
+        }
+    }
+}
+
+function bundle() {    
     return browserified
         .bundle()
         .pipe(source('bundle.js'))
@@ -37,12 +49,10 @@ function bundle() {
         .pipe(browserSync.stream());
 }
 
-// Static server
 gulp.task('default', ['watch']);
 
 gulp.task('watch', () => {
-    browserified = watchify(browserified);
-
+    createBrowserifiedBundle(true, true);
     return runSequence(
         'build',
         () => {
@@ -83,7 +93,10 @@ gulp.task('build:css', () => {
         .pipe(browserSync.stream());
 });
 
-gulp.task('build:js', bundle);
+gulp.task('build:js', () => {
+    createBrowserifiedBundle(false, false);
+    bundle();
+});
 
 gulp.task('build:html', () => {
     return gulp.src([
