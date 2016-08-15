@@ -46,7 +46,7 @@ function createBrowserifiedBundle(debug, watch) {
 function bundle() {    
     return browserified
         .bundle()
-        .pipe(source('bundle.js'))
+        .pipe(source('player.js'))
         .pipe(gulp.dest(paths.dest))
         .pipe(browserSync.stream());
 }

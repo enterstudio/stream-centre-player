@@ -12,8 +12,9 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="dist\bundle.js" target="Resources\player.js" />
+        <file src="dist\player.js" target="Resources\player.js" />
         <file src="dist\index.html" target="Resources\player.html" />
         <file src="dist\player.css" target="Resources\player.css" />
+        <file src="dist\dash.all.min.js" target="Resources\dash.all.min.js" />
     </files>
 </package>
