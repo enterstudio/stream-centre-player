@@ -1,11 +1,18 @@
 const gulp        = require('gulp');
 const browserSync = require('browser-sync').create();
 const ts          = require("gulp-typescript");
+const browserify  = require("browserify");
+const source      = require('vinyl-source-stream');
+const tsify       = require("tsify");
+const watchify    = require("watchify");
+const gutil       = require("gulp-util");
+const runSequence = require('run-sequence');
+const clean       = require("gulp-clean");
 
 const paths = {
     src: {
         html: "src/index.html",
-        js: "src/player.ts",
+        js: "src/main.ts",
         css: "src/player.css"
     },
     libs: {
@@ -14,22 +21,52 @@ const paths = {
     dest: "dist"
 };
 
-const tsProject = ts.createProject("tsconfig.json");
+var browserified = browserify({
+    basedir: '.',
+    debug: true,
+    entries: [paths.src.js],
+    cache: {},
+    packageCache: {}
+}).plugin(tsify);
+
+function bundle() {
+    return browserified
+        .bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest(paths.dest))
+        .pipe(browserSync.stream());
+}
 
 // Static server
-gulp.task('default', ['build'], () => {
-    browserSync.init({
-        server: {
-            baseDir: paths.dest
-        }
-    });
+gulp.task('default', ['watch']);
 
-    gulp.watch(paths.src.html, ['build:html']);
-    gulp.watch(paths.src.css, ['build:css']);
-    gulp.watch(paths.src.js, ['build:js']);
+gulp.task('watch', () => {
+    browserified = watchify(browserified);
+
+    return runSequence(
+        'build',
+        () => {
+            browserSync.init({
+                server: {
+                    baseDir: paths.dest
+                }
+            });
+
+            gulp.watch(paths.src.html, ['build:html']);
+            gulp.watch(paths.src.css, ['build:css']);
+            browserified.on("update", bundle);
+            browserified.on("log", gutil.log);
+        }
+    );
 });
 
-gulp.task('build', ['build:libs', 'build:html', 'build:js', 'build:css']);
+gulp.task('build', (cb) => {
+    runSequence(
+        'clean',
+        ['build:libs', 'build:html', 'build:js', 'build:css'],
+        cb
+    );
+});
 
 gulp.task('build:libs', () => {
     return gulp.src([
@@ -46,12 +83,7 @@ gulp.task('build:css', () => {
         .pipe(browserSync.stream());
 });
 
-gulp.task('build:js', () => {
-    return tsProject.src()
-        .pipe(ts(tsProject))
-        .js.pipe(gulp.dest(paths.dest))
-        .pipe(browserSync.stream());
-});
+gulp.task('build:js', bundle);
 
 gulp.task('build:html', () => {
     return gulp.src([
@@ -59,4 +91,9 @@ gulp.task('build:html', () => {
         ])
         .pipe(gulp.dest(paths.dest))
         .pipe(browserSync.stream());
+});
+
+gulp.task('clean', () => {
+    return gulp.src(paths.dest, {read: false})
+        .pipe(clean());
 });

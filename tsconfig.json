@@ -1,6 +1,6 @@
 {
     "files": [
-        "src/player.ts",
+        "src/main.ts",
         "src/typings.d.ts"
     ],
     "compilerOptions": {
