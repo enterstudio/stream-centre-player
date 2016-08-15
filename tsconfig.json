@@ -1,0 +1,10 @@
+{
+    "files": [
+        "src/player.ts",
+        "src/typings.d.ts"
+    ],
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "target": "es5"
+    }
+}

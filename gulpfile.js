@@ -1,17 +1,20 @@
 const gulp        = require('gulp');
 const browserSync = require('browser-sync').create();
+const ts          = require("gulp-typescript");
 
 const paths = {
     src: {
         html: "src/index.html",
-        js: "src/player.js",
+        js: "src/player.ts",
         css: "src/player.css"
     },
     libs: {
         dashjs: "node_modules/dashjs/dist/dash.all.min.js"
     },
     dest: "dist"
-}
+};
+
+const tsProject = ts.createProject("tsconfig.json");
 
 // Static server
 gulp.task('default', ['build'], () => {
@@ -44,10 +47,9 @@ gulp.task('build:css', () => {
 });
 
 gulp.task('build:js', () => {
-    return gulp.src([
-            paths.src.js,
-        ])
-        .pipe(gulp.dest(paths.dest))
+    return tsProject.src()
+        .pipe(ts(tsProject))
+        .js.pipe(gulp.dest(paths.dest))
         .pipe(browserSync.stream());
 });
 
