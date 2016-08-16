@@ -10,6 +10,8 @@ const runSequence = require('run-sequence');
 const clean       = require("gulp-clean");
 const nuget       = require("nuget");
 const es          = require("event-stream");
+const bump        = require('gulp-bump');
+const replace     = require('gulp-replace');
 
 const paths = {
     src: {
@@ -113,7 +115,7 @@ gulp.task('clean', () => {
         .pipe(clean());
 });
 
-gulp.task('nuget:publish', ['build'], () => {
+gulp.task('nuget:publish', ['build', 'bump-version'], () => {
     return gulp.src("Qoollo.StreamCentre.Player.nuspec")
         .pipe(es.map((file, cb) => {
             nuget.pack(file, (err, nupkgFile) => {
@@ -128,4 +130,17 @@ gulp.task('nuget:publish', ['build'], () => {
                 })
             });
         }));
-})
+});
+
+gulp.task('bump-version', (done) => {
+    gulp.src('package.json')
+        .pipe(bump())
+        .pipe(gulp.dest('./'))
+        .on('end', () => {
+            let newVersion = require('./package.json').version;
+            gulp.src("Qoollo.StreamCentre.Player.nuspec")
+                .pipe(replace(/<version>\d*\.\d*\.\d*<\/version>/i, `<version>${newVersion}</version>`))
+                .pipe(gulp.dest('./'))
+                .on('end', done);
+        });
+});
