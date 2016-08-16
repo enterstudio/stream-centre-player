@@ -34,11 +34,11 @@
     "run-sequence": "^1.2.2",
     "tsify": "^1.0.3",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.7.0"
-  },
-  "dependencies": {
+    "watchify": "^3.7.0",
     "browser-sync": "^2.13.0",
     "dashjs": "^2.2.0",
     "gulp": "^3.9.1"
+  },
+  "dependencies": {
   }
 }

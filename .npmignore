@@ -1,0 +1,5 @@
+.vscode/
+src/
+tsconfig.json
+Qoollo.StreamCentre.Player.nuspec
+gulpfile.js

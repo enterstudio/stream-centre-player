@@ -12,6 +12,7 @@ const nuget       = require("nuget");
 const es          = require("event-stream");
 const bump        = require('gulp-bump');
 const replace     = require('gulp-replace');
+const spawn       = require('child_process').spawn;
 
 const paths = {
     src: {
@@ -130,6 +131,10 @@ gulp.task('nuget:publish', ['build', 'bump-version'], () => {
                 })
             });
         }));
+});
+
+gulp.task('npm:publish', ['build'], (done) => {
+    spawn('npm.cmd', ['publish'], { stdio: 'inherit' }).on('error', err => done(err)).on('close', done);
 });
 
 gulp.task('bump-version', (done) => {
