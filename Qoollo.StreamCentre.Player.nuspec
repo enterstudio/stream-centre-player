@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
-<package>
-    <metadata minClientVersion="3.3.0">
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
         <id>Qoollo.StreamCentre.Player</id>
-        <version>0.0.1</version>
+        <version>0.0.5</version>
         <authors>Alexander Pavlyuk</authors>
         <owners>Qoollo</owners>
+        <projectUrl>https://github.com/qoollo/stream-centre-player/</projectUrl>
+        <licenseUrl>https://raw.githubusercontent.com/qoollo/stream-centre-player/master/LICENSE</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Dash.js wrapper.</description>
         <tags></tags>
@@ -12,9 +14,9 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="dist\player.js" target="Resources\player.js" />
-        <file src="dist\index.html" target="Resources\player.html" />
-        <file src="dist\player.css" target="Resources\player.css" />
-        <file src="dist\dash.all.min.js" target="Resources\dash.all.min.js" />
+        <file src="dist\player.js" target="content\Qoollo.StreamCentre\player.js" />
+        <file src="dist\index.html" target="content\Qoollo.StreamCentre\player.html" />
+        <file src="dist\player.css" target="content\Qoollo.StreamCentre\player.css" />
+        <file src="dist\dash.all.min.js" target="content\Qoollo.StreamCentre\dash.all.min.js" />
     </files>
 </package>
