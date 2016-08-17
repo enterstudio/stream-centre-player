@@ -1,16 +1,10 @@
-import { Player } from "./Player";
+import * as player from "./Player";
 
-var video = document.getElementsByTagName('video')[0],
-    tests = [ 'video/mp4; codecs="avc1"', 'video/mp4; codecs="avc1.4D401E"' ];
-
-console.group('StreamCentre VideoPlayer initialize');
-tests.forEach(t => {
-    console.log(`- Can play ${t}?`);
-    console.log(`- ${video.canPlayType(t)}`);
-});
-
-module Qoollo.StreamCentre { 
-    export const player = new Player(<HTMLVideoElement>document.getElementById('video-player'));
+export module Qoollo.StreamCentre { 
+    export const Player = player.Player;
 }
-
-console.groupEnd();
+(<any>window).Qoollo = {
+    StreamCentre: {
+        Player: Qoollo.StreamCentre.Player
+    }
+};

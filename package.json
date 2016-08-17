@@ -2,7 +2,7 @@
   "name": "stream-centre-player",
   "version": "0.0.5",
   "description": "Dash.js wrapper for easy-peasy usage",
-  "main": "src/server.js",
+  "main": "dist/player.js",
   "scripts": {
     "test": "karma start karma.conf.js"
   },

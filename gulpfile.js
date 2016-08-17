@@ -91,7 +91,7 @@ gulp.task('build:css', () => {
 
 gulp.task('build:js', () => {
     createBrowserifiedBundle(false, false);
-    bundle();
+    return bundle();
 });
 
 gulp.task('build:html', () => {
