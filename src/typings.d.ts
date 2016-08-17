@@ -7,3 +7,5 @@
 declare var BrowserCallback: {
     call: (...args: any[]) => any
 }
+
+declare var require: (module: string) => any;

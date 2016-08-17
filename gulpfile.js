@@ -20,9 +20,6 @@ const paths = {
         js: "src/main.ts",
         css: "src/player.css"
     },
-    libs: {
-        dashjs: "node_modules/dashjs/dist/dash.all.min.js"
-    },
     dest: "dist"
 };
 
@@ -36,7 +33,8 @@ function createBrowserifiedBundle(debug, watch) {
             debug: debug,
             entries: [paths.src.js],
             cache: {},
-            packageCache: {}
+            packageCache: {},
+            transform: [ "browserify-shim" ]
         }).plugin(tsify);
 
         watch = !!watch;
@@ -78,16 +76,9 @@ gulp.task('watch', () => {
 gulp.task('build', (cb) => {
     runSequence(
         'clean',
-        ['build:libs', 'build:html', 'build:js', 'build:css'],
+        ['build:html', 'build:js', 'build:css'],
         cb
     );
-});
-
-gulp.task('build:libs', () => {
-    return gulp.src([
-            paths.libs.dashjs,
-        ])
-        .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('build:css', () => {

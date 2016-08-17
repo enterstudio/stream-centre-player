@@ -1,3 +1,4 @@
+require("dashjs");
 import { Logger } from "./Logger";
 
 /**
