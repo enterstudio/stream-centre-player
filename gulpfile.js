@@ -107,7 +107,15 @@ gulp.task('clean', () => {
         .pipe(clean());
 });
 
-gulp.task('nuget:publish', ['build', 'bump-version'], () => {
+gulp.task('publish', () => {
+    return runSequence(
+        'build', 
+        'bump-version',
+        ['nuget:publish', 'npm:publish']
+    )
+})
+
+gulp.task('nuget:publish', () => {
     return gulp.src("Qoollo.StreamCentre.Player.nuspec")
         .pipe(es.map((file, cb) => {
             nuget.pack(file, (err, nupkgFile) => {
@@ -124,8 +132,10 @@ gulp.task('nuget:publish', ['build', 'bump-version'], () => {
         }));
 });
 
-gulp.task('npm:publish', ['build'], (done) => {
-    spawn('npm.cmd', ['publish'], { stdio: 'inherit' }).on('error', err => done(err)).on('close', done);
+gulp.task('npm:publish', (done) => {
+    spawn('npm.cmd', ['publish'], { stdio: 'inherit' })
+        .on('error', err => done(err))
+        .on('close', done);
 });
 
 gulp.task('bump-version', (done) => {
