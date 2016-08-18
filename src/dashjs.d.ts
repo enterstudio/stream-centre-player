@@ -41,7 +41,16 @@ declare module DashJs {
          * Duration of the media's playback, in seconds.
          * @returns {number} The current duration of the media.
          */
-        duration(): number
+        duration(): number;
+
+        /**
+         * Current time of the playhead, in seconds.
+         * If called with no arguments then the returned time value is time elapsed since the start point of the first stream. 
+         * However if a stream ID is supplied then time is relative to the start of that stream, or is null if there is no such stream id in the manifest.
+         * 
+         * @param {string} streamId The ID of a stream that the returned playhead time must be relative to the start of. If undefined, then playhead time is relative to the first stream.
+         */
+        time(streamId?: string): number;
 
         /**
          * Use the on method to listen for public events found in MediaPlayer.events. See MediaPlayerEvents

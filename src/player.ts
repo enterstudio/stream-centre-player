@@ -49,6 +49,14 @@ export class Player {
         this.logger.log('seek(' + offsetSec + ')');
     }
 
+    public getDuration(): number {
+        return this.mediaPlayer.duration();
+    }
+
+    public getCurrentTime(): number {
+        return this.mediaPlayer.time();
+    }
+
     private subscribeMediaPlayerEvents() {
         [
             dashjs.MediaPlayer.events.ERROR,
