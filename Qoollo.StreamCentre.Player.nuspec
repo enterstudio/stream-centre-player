@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Qoollo.StreamCentre.Player</id>
-        <version>0.0.8</version>
+        <version>0.0.10</version>
         <authors>Alexander Pavlyuk</authors>
         <owners>Qoollo</owners>
         <projectUrl>https://github.com/qoollo/stream-centre-player/</projectUrl>

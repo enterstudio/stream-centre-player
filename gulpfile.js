@@ -13,11 +13,15 @@ const es          = require("event-stream");
 const bump        = require('gulp-bump');
 const replace     = require('gulp-replace');
 const spawn       = require('child_process').spawn;
+const path        = require('path');
 
 const paths = {
     src: {
         html: "src/index.html",
-        js: "src/main.ts",
+        js: {
+            entry: "src/main.ts",
+            all: "src/**/*.ts"
+        },
         css: "src/player.css"
     },
     dest: "dist"
@@ -31,7 +35,7 @@ function createBrowserifiedBundle(debug, watch) {
         browserified = browserify({
             basedir: '.',
             debug: debug,
-            entries: [paths.src.js],
+            entries: [paths.src.js.entry],
             cache: {},
             packageCache: {},
             transform: [ "browserify-shim" ]
@@ -91,7 +95,15 @@ gulp.task('build:css', () => {
 
 gulp.task('build:js', () => {
     createBrowserifiedBundle(false, false);
-    return bundle();
+    let tsProject = ts.createProject('tsconfig.json'),
+        tsResult = tsProject.src().pipe(ts(tsProject));
+    return es.merge(
+        bundle(),
+        gulp.src(paths.src.js.all)
+            .pipe(ts())
+            .pipe(gulp.dest(path.join(paths.dest, 'dist')))
+        //tsResult.js.pipe(gulp.dest(path.join(paths.dest, 'dist')))
+    );;
 });
 
 gulp.task('build:html', () => {
