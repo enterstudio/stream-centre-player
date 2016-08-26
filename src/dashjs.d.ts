@@ -97,7 +97,17 @@ declare module DashJs {
         type: string;
         event: { 
             id: string 
-        } 
+        };
+    }
+
+    interface IMediaPlayerErrorEvent extends IMediaPlayerEvent {
+        error: string;
+        event: any;/*{
+            id: string,
+            request: XMLHttpRequest,
+            url: string
+        }|string;*/
+        [key: string]: string;
     }
 }
 

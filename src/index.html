@@ -7,6 +7,10 @@
 </head>
 <body>
     <div class="fullscreen-bg">
+        <div class="errors-container">
+            <ul class="errors-list"></ul>
+        </div>
+
         <video id="video-player" class="fullscreen-bg__video"></video>
 
         <div id="codec-not-supported" class="hidden">
@@ -31,8 +35,49 @@
             poster: 'poster.gif'
         });
         player.initialize('http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd');
+        player.addEventListener("error", e => displayError(e.error));
 
         console.groupEnd();
+
+        
+
+        window.setTimeout(() => {
+            simulateDashJsError(player);
+        }, 2000);
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+        function displayError(msg) {
+            var errorsList = document.querySelector('.errors-container .errors-list'),
+                li = document.createElement('li'),
+                span = document.createElement('span'),
+                btn = document.createElement('button');
+            
+            errorsList.appendChild(li);
+
+            li.classList.add('errors-list_item');
+            li.appendChild(btn);
+            li.appendChild(span);
+            
+            span.innerText = msg;
+
+            btn.classList.add('close-btn');
+            btn.innerHTML = '&times;';
+            btn.addEventListener('click', () => errorsList.removeChild(li));
+        }
+
+        function simulateDashJsError(player) {
+            var err = {
+                type: 'error',
+                error: 'download',
+                event: {
+                    id: 'context',
+                    request: new XMLHttpRequest(),
+                    url: '/some/url'
+                }
+            };
+            player.onMediaPlayerEvent(err);
+        }
     </script>
 </body>
 </html>
