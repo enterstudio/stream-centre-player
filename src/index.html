@@ -26,7 +26,11 @@
             console.log(`- ${video.canPlayType(t)}`);
         });
 
-        player = new Qoollo.StreamCentre.Player(document.getElementById('video-player'));
+        player = new Qoollo.StreamCentre.Player(document.getElementById('video-player'), { 
+            controls: true,
+            poster: 'poster.gif'
+        });
+        player.initialize('http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd');
 
         console.groupEnd();
     </script>

@@ -1,6 +1,18 @@
 require("dashjs");
 import { Logger } from "./Logger";
 
+export interface IPlayerSettings {
+    controls?: boolean;
+    poster?: string;
+}
+
+function getDefaultSettings(): IPlayerSettings {
+    return {
+        controls: false,
+        poster: null
+    };
+}
+
 /**
  *  Wraps HTMLVideoElement and dash.js to provide useful player API.
  */
@@ -8,11 +20,15 @@ export class Player {
     private logger: Logger;
     private mediaPlayer: DashJs.IMediaPlayer;
     private element: HTMLVideoElement;
+    private settings: IPlayerSettings;
 
-    constructor(element: HTMLVideoElement) {
+    constructor(element: HTMLVideoElement, settings: IPlayerSettings = getDefaultSettings()) {
         this.element = element;
+        this.settings = settings;
         this.logger = new Logger();
 
+        this.element.controls = !!this.settings.controls;
+        this.element.poster = this.settings.poster;
         this.mediaPlayer = dashjs.MediaPlayer().create();
         this.subscribeMediaPlayerEvents();
     }

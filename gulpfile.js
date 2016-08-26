@@ -17,6 +17,7 @@ const path        = require('path');
 
 const paths = {
     src: {
+        assets: "public/**/*.*",
         html: "src/index.html",
         js: {
             entry: "src/main.ts",
@@ -80,7 +81,7 @@ gulp.task('watch', () => {
 gulp.task('build', (cb) => {
     runSequence(
         'clean',
-        ['build:html', 'build:js', 'build:css'],
+        ['build:html', 'build:js', 'build:css', 'build:assets'],
         cb
     );
 });
@@ -110,6 +111,12 @@ gulp.task('build:html', () => {
     return gulp.src([
             paths.src.html,
         ])
+        .pipe(gulp.dest(paths.dest))
+        .pipe(browserSync.stream());
+});
+
+gulp.task('build:assets', () => {
+    return gulp.src(paths.src.assets)
         .pipe(gulp.dest(paths.dest))
         .pipe(browserSync.stream());
 });
