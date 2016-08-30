@@ -35,19 +35,23 @@
             poster: 'poster.gif'
         });
         player.initialize('http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd');
-        player.addEventListener("error", e => displayError(e.error));
+        player.addEventListener("error", displayError);
+        player.addEventListener("error", executeCallback);
+        player.addEventListener("playbacktimechange", executeCallback);
 
         console.groupEnd();
 
-        
-
-        window.setTimeout(() => {
-            simulateDashJsError(player);
-        }, 2000);
+        Qoollo.StreamCentre.player = player;
 
         ///////////////////////////////////////////////////////////////////////////////////////
 
-        function displayError(msg) {
+        function executeCallback(e) {
+            if (typeof BrowserCallback !== 'undefined' && BrowserCallback.call) {
+                BrowserCallback.call('handlePlayerEvent', e);
+            }
+        }
+
+        function displayError(e) {
             var errorsList = document.querySelector('.errors-container .errors-list'),
                 li = document.createElement('li'),
                 span = document.createElement('span'),
@@ -59,11 +63,21 @@
             li.appendChild(btn);
             li.appendChild(span);
             
-            span.innerText = msg;
+            span.innerText = e.error;
 
             btn.classList.add('close-btn');
             btn.innerHTML = '&times;';
             btn.addEventListener('click', () => errorsList.removeChild(li));
+
+            if (e.errorType === 'CodecNotSupported') {
+                showCodecNotSupported();
+            }
+        }
+
+        function showCodecNotSupported() {
+            var banner = document.getElementById('codec-not-supported');
+            banner.classList.remove('hidden');
+            this.element.classList.add('hidden');
         }
 
         function simulateDashJsError(player) {

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Qoollo.StreamCentre.Player</id>
-        <version>0.0.11</version>
+        <version>0.0.18</version>
         <authors>Alexander Pavlyuk</authors>
         <owners>Qoollo</owners>
         <projectUrl>https://github.com/qoollo/stream-centre-player/</projectUrl>
@@ -14,8 +14,8 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="dist\player.js" target="content\Qoollo.StreamCentre\player.js" />
-        <file src="dist\index.html" target="content\Qoollo.StreamCentre\player.html" />
-        <file src="dist\player.css" target="content\Qoollo.StreamCentre\player.css" />
+        <!--<file src="dist\**" target="lib\net20" />-->
+        <file src="dist\**" target="content\Qoollo.StreamCentre\"/>
+        <file src="dist\index.html" target="content\Qoollo.StreamCentre\player.html"/>
     </files>
 </package>

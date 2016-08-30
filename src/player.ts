@@ -152,35 +152,24 @@ export class Player extends EventEmitter {
     private onMediaPlayerEvent(e: DashJs.IMediaPlayerEvent) {
         switch (e.type) {
             case dashjs.MediaPlayer.events.ERROR:
-                if (e.event.id === 'codec') {
-                    this.showCodecNotSupported();
-                }
                 this.logger.log('Event: ' + e.type);
-                this.executeCallback(e);
                 this.dispatchEvent("error", {
                     type: 'error',
-                    error: this.convertErrorEventToString(<DashJs.IMediaPlayerErrorEvent>e)
+                    error: this.convertErrorEventToString(<DashJs.IMediaPlayerErrorEvent>e),
+                    errorType: e.event.id === 'codec' ? 'CodecNotSupported' : null
                 });
                 break;
             case dashjs.MediaPlayer.events.PLAYBACK_TIME_UPDATED:
-                this.executeCallback(e);
+                this.dispatchEvent("playbacktimechange", {
+                    type: 'playbacktimechange',
+                    time: e['time'],
+                    timeToEnd: e['timeToEnd'],
+                    description: 'All units are specified in seconds'
+                });
                 break;
             default:
                 this.logger.log('Event: ' + e.type);
-                this.executeCallback(e);
                 break;
         }
-    }
-
-    private executeCallback(e: DashJs.IMediaPlayerEvent) {
-        if (typeof BrowserCallback !== 'undefined' && BrowserCallback.call) {
-            BrowserCallback.call('handleDashJsEvent', e);
-        }
-    }
-
-    private showCodecNotSupported() {
-        var banner = document.getElementById('codec-not-supported');
-        banner.classList.remove('hidden');
-        this.element.classList.add('hidden');
     }
 }

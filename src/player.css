@@ -38,15 +38,22 @@
     left: 0;
     right: 0;
     z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
 }
 
     .errors-container .errors-list {
+        margin: 0;
+    }
+
+    .errors-container .errors-list_item:first-child {
+        margin-top: 5px;
     }
 
     .errors-container .errors-list_item {
         color: white;
         list-style: none;
         font-size: 18px;
+        margin-bottom: 5px;
     }
 
         .errors-container .errors-list_item .close-btn {
@@ -56,7 +63,7 @@
             vertical-align: middle;
             background: transparent;
             border: 1px solid white;
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
         }
 

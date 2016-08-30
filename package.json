@@ -1,6 +1,6 @@
 {
   "name": "stream-centre-player",
-  "version": "0.0.12",
+  "version": "0.0.19",
   "description": "Dash.js wrapper for easy-peasy usage",
   "main": "dist/dist/player.js",
   "scripts": {
